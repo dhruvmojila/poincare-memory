@@ -1,0 +1,6481 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Hierarchy-aware, time-aware memory for LLM agents on the Poincaré ball">
+      
+      
+      
+        <link rel="canonical" href="https://dhruvmojila.github.io/poincare-memory/api/">
+      
+      
+        <link rel="prev" href="../benchmarks/">
+      
+      
+        <link rel="next" href="../faq/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>API reference - poincare-memory</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="poincare-memory" class="md-header__button md-logo" aria-label="poincare-memory" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            poincare-memory
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/dhruvmojila/poincare-memory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    dhruvmojila/poincare-memory
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="poincare-memory" class="md-nav__button md-logo" aria-label="poincare-memory" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    poincare-memory
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/dhruvmojila/poincare-memory" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    dhruvmojila/poincare-memory
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/hierarchy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Building a hierarchy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/temporal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Time and forgetting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/structural-queries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Structural queries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/inspection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inspecting a memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/persistence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistence and export
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/scaling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scaling and vector databases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/embedders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Embedders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using it in an agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../paper-mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper mapping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Memory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.ancestors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ancestors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.stats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stats
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.add" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.add_many" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_many
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.link" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        link
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.embed_query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        embed_query
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.build_index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build_index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.to_dataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_dataframe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.inspect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        inspect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.save" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        save
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.to_json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.from_json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_json
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.store.records.MemoryRecord" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MemoryRecord
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.store.records.SearchResult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SearchResult
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Geometry
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PoincareBall
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PoincareBall">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.radius" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        radius
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        project
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.is_inside" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        is_inside
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.conformal_factor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        conformal_factor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.mobius_add" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mobius_add
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.mobius_scalar_mul" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mobius_scalar_mul
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.distance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        distance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.distance_arcosh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        distance_arcosh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.distance_to_origin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        distance_to_origin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.pairwise_distance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pairwise_distance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.expmap0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expmap0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.logmap0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        logmap0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.expmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expmap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.logmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        logmap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.geodesic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        geodesic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.point_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        point_at
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.set_depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        set_depth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.to_lorentz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_lorentz
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.from_lorentz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_lorentz
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.egrad2rgrad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        egrad2rgrad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.retraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        retraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.random_points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        random_points
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.lorentz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lorentz
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="lorentz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.lorentz.lorentz_inner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lorentz_inner
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.lorentz.lorentz_distance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lorentz_distance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.lorentz.to_mips_vectors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_mips_vectors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.lorentz.mips_scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mips_scores
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#embedders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embedders
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.embed.base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        base
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="base">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.embed.base.Embedder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embedder
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Embedder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.embed.base.Embedder.embed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        embed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.embed.base.HashingEmbedder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HashingEmbedder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.embed.base.CallableEmbedder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CallableEmbedder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.embed.base.SentenceTransformerEmbedder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SentenceTransformerEmbedder
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.embed.projection.BallProjector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BallProjector
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BallProjector">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.embed.projection.BallProjector.at_depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        at_depth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.embed.projection.BallProjector.expmap0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expmap0
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.sarkar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sarkar
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="sarkar">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.sarkar.max_safe_depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        max_safe_depth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.sarkar.spread_directions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        spread_directions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.sarkar.sarkar_layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sarkar_layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.rsgd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rsgd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="rsgd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.rsgd.fit_poincare_embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fit_poincare_embeddings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.rsgd.fit_euclidean_embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fit_euclidean_embeddings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.evaluation.reconstruction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reconstruction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tree
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="tree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.tree.children_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        children_map
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.tree.depths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        depths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.tree.transitive_closure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        transitive_closure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temporal-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporal policies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        policies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="policies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies.DecayPolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DecayPolicy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DecayPolicy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies.DecayPolicy.weight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        weight
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies.HalfLife" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HalfLife
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies.Ebbinghaus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ebbinghaus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies.ValidityWindow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ValidityWindow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies.Product" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Product
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies.generative_agents_recency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        generative_agents_recency
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retrieval
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.retrieval.scoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="scoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.retrieval.scoring.combine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        combine
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.retrieval.cones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="cones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.retrieval.cones.cone_energy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cone_energy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        index
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="index">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.index.MIPSIndex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MIPSIndex
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MIPSIndex">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.index.MIPSIndex.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.index.MIPSIndex.query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        query
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualisation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.viz.export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        export
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="export">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.viz.export.disk_coordinates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        disk_coordinates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.viz.export.structural_coordinates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        structural_coordinates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.viz.export.to_dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_dict
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.viz.export.to_networkx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_networkx
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.viz.html.render_html" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        render_html
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.viz.mpl.plot_memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plot_memory
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Memory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.ancestors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ancestors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.stats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stats
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.add" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.add_many" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_many
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.link" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        link
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.embed_query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        embed_query
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.build_index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build_index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.to_dataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_dataframe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.inspect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        inspect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.save" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        save
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.to_json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_json
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.store.memory.Memory.from_json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_json
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.store.records.MemoryRecord" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MemoryRecord
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.store.records.SearchResult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SearchResult
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Geometry
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PoincareBall
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PoincareBall">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.radius" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        radius
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        project
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.is_inside" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        is_inside
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.conformal_factor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        conformal_factor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.mobius_add" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mobius_add
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.mobius_scalar_mul" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mobius_scalar_mul
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.distance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        distance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.distance_arcosh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        distance_arcosh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.distance_to_origin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        distance_to_origin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.pairwise_distance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pairwise_distance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.expmap0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expmap0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.logmap0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        logmap0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.expmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expmap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.logmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        logmap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.geodesic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        geodesic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.point_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        point_at
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.set_depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        set_depth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.to_lorentz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_lorentz
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.from_lorentz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_lorentz
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.egrad2rgrad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        egrad2rgrad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.retraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        retraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.poincare.PoincareBall.random_points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        random_points
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.lorentz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lorentz
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="lorentz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.lorentz.lorentz_inner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lorentz_inner
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.lorentz.lorentz_distance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lorentz_distance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.lorentz.to_mips_vectors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_mips_vectors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.geometry.lorentz.mips_scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mips_scores
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#embedders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embedders
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.embed.base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        base
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="base">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.embed.base.Embedder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embedder
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Embedder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.embed.base.Embedder.embed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        embed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.embed.base.HashingEmbedder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HashingEmbedder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.embed.base.CallableEmbedder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CallableEmbedder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.embed.base.SentenceTransformerEmbedder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SentenceTransformerEmbedder
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.embed.projection.BallProjector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BallProjector
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BallProjector">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.embed.projection.BallProjector.at_depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        at_depth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.embed.projection.BallProjector.expmap0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expmap0
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.sarkar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sarkar
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="sarkar">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.sarkar.max_safe_depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        max_safe_depth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.sarkar.spread_directions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        spread_directions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.sarkar.sarkar_layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sarkar_layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.rsgd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rsgd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="rsgd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.rsgd.fit_poincare_embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fit_poincare_embeddings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.rsgd.fit_euclidean_embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fit_euclidean_embeddings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.evaluation.reconstruction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reconstruction
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tree
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="tree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.tree.children_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        children_map
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.tree.depths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        depths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.hierarchy.tree.transitive_closure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        transitive_closure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#temporal-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporal policies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        policies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="policies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies.DecayPolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DecayPolicy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DecayPolicy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies.DecayPolicy.weight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        weight
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies.HalfLife" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HalfLife
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies.Ebbinghaus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ebbinghaus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies.ValidityWindow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ValidityWindow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies.Product" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Product
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.temporal.policies.generative_agents_recency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        generative_agents_recency
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retrieval
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.retrieval.scoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="scoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.retrieval.scoring.combine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        combine
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.retrieval.cones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="cones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.retrieval.cones.cone_energy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cone_energy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        index
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="index">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.index.MIPSIndex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MIPSIndex
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MIPSIndex">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.index.MIPSIndex.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.index.MIPSIndex.query" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        query
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualisation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.viz.export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        export
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="export">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.viz.export.disk_coordinates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        disk_coordinates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.viz.export.structural_coordinates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        structural_coordinates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.viz.export.to_dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_dict
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poincare_memory.viz.export.to_networkx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_networkx
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.viz.html.render_html" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        render_html
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poincare_memory.viz.mpl.plot_memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plot_memory
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="api-reference">API reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
+<h2 id="memory">Memory<a class="headerlink" href="#memory" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="poincare_memory.store.memory.Memory" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">poincare_memory.store.memory.Memory</span>
+
+
+<a href="#poincare_memory.store.memory.Memory" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">Memory</span><span class="p">(</span>
+    <span class="n">embedder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">curvature</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">decay</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">base_depth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">depth_step</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">inherit</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
+    <span class="n">cone_constrained</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">cone_k</span><span class="o">=</span><span class="n">DEFAULT_K</span><span class="p">,</span>
+    <span class="n">metric</span><span class="o">=</span><span class="s2">"shell"</span><span class="p">,</span>
+    <span class="n">time_coef</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">depth_bias</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">clock</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Hierarchy-aware, time-aware memory for agents and RAG.</p>
+<p>Each memory gets a point in the Poincaré ball. Its <em>direction</em> comes from
+the text embedding (optionally pulled toward its parent's direction); its
+<em>depth</em> (hyperbolic distance from the origin) comes from its level in the
+hierarchy you declare with <code>parent=</code>. Structural queries (<code>subtree</code>,
+<code>ancestors</code>, <code>siblings</code>, <code>cone</code>) and the temporal policy are geometric
+and explicit, and every memory can be inspected visually.</p>
+<p>Scoring. <code>search</code> ranks memories by
+<code>-distance + depth_bias * depth + time_coef * log(time_weight)</code>.
+With <code>metric="shell"</code> (default) <code>distance</code> is the hyperbolic distance
+between the query and the memory after both are moved to the reference
+shell at <code>base_depth</code>: it measures semantic (angular) mismatch in
+hyperbolic units and is comparable across levels. With
+<code>metric="hyperbolic"</code> it is the raw distance to the memory's actual point,
+which strongly favours shallow, general memories (a root at depth 1 is close
+to everything) and is the right choice only when the embedder itself is
+hyperbolic (e.g. Hierarchy Transformers) or when generality is wanted. Use
+<code>depth_bias</code> to prefer specific (<code>&gt; 0</code>) or general (<code>&lt; 0</code>) memories
+explicitly.</p>
+<p>Thread safety. All mutating and searching methods take an internal
+re-entrant lock, so a <code>Memory</code> can be shared between threads; the
+embedder you pass must be safe to call from several threads if you do.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>embedder</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="Embedder (poincare_memory.embed.Embedder)" href="#poincare_memory.embed.base.Embedder">Embedder</a> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Anything with <code>dim</code> and <code>embed(texts)</code>; defaults to the offline
+:class:<code>~poincare_memory.embed.HashingEmbedder</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>curvature</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Positive curvature magnitude <code>c</code> of the ball.</p>
+              </div>
+            </td>
+            <td>
+                  <code>1.0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>decay</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="DecayPolicy (poincare_memory.temporal.DecayPolicy)" href="#poincare_memory.temporal.policies.DecayPolicy">DecayPolicy</a> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Temporal policy; defaults to :class:<code>~poincare_memory.temporal.NoDecay</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>base_depth</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Hyperbolic radius of root memories and the extra radius per level.</p>
+              </div>
+            </td>
+            <td>
+                  <code>1.0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>depth_step</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Hyperbolic radius of root memories and the extra radius per level.</p>
+              </div>
+            </td>
+            <td>
+                  <code>1.0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>inherit</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>How much of the parent's direction a child inherits (0 = none, 1 = all).</p>
+              </div>
+            </td>
+            <td>
+                  <code>0.25</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>cone_constrained</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Force children inside the parent's entailment cone. Makes <code>cone</code>
+queries exact for the declared hierarchy but collapses semantic
+directions onto a few rays; off by default.</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>cone_k</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The <code>K</code> constant of entailment cones (Ganea et al. 2018).</p>
+              </div>
+            </td>
+            <td>
+                  <code><span title="poincare_memory.retrieval.DEFAULT_K">DEFAULT_K</span></code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>metric</code>
+            </td>
+            <td>
+                  <code><span title="poincare_memory.store.memory.Metric">Metric</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Default distance for <code>search</code>; see above.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;shell&#39;</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>time_coef</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Score weights; see :func:<code>poincare_memory.retrieval.combine</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>1.0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>depth_bias</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Score weights; see :func:<code>poincare_memory.retrieval.combine</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>1.0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>clock</code>
+            </td>
+            <td>
+                  <code><span title="collections.abc.Callable">Callable</span>[[], <span title="datetime.datetime">datetime</span>] | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Callable returning "now"; override in tests or simulations.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="poincare_memory.store.memory.Memory.points" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">points</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#poincare_memory.store.memory.Memory.points" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">points</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>All points as an <code>(n, dim)</code> array in insertion order.</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.ancestors" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">ancestors</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.ancestors" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">ancestors</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Ancestors from the nearest parent up to the root.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.stats" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">stats</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.stats" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">stats</span><span class="p">(</span><span class="n">at_time</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Summary numbers: counts, levels, depths, timestamps, mean temporal weight.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.add" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">add</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.add" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">add</span><span class="p">(</span>
+    <span class="n">text</span><span class="p">,</span>
+    <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">meta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">valid_from</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">valid_until</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Store a memory; returns its id.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.add_many" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">add_many</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.add_many" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">add_many</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Store many memories with one embedding call.</p>
+<p>Each item is a dict of <code>add</code> keyword arguments; parents must precede
+their children in the iteration order. Returns the ids in order.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.update" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">update</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.update" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">update</span><span class="p">(</span>
+    <span class="nb">id</span><span class="p">,</span>
+    <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">meta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">valid_from</span><span class="o">=</span><span class="n">_UNSET</span><span class="p">,</span>
+    <span class="n">valid_until</span><span class="o">=</span><span class="n">_UNSET</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Change a memory in place. New <code>text</code> re-embeds it and re-places its subtree;
+<code>meta</code> replaces the metadata dict; <code>valid_from</code> / <code>valid_until</code> may be set to <code>None</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.link" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">link</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.link" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">link</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Re-parent <code>child</code> (and re-place its subtree).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.embed_query" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">embed_query</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.embed_query" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">embed_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Point for a free-text query (direction from the embedder, depth given or <code>base_depth</code>).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.build_index" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">build_index</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.build_index" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">build_index</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Build (or rebuild) the shell-metric nearest-neighbour index over all memories.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.search" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">search</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.search" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">search</span><span class="p">(</span>
+    <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">,</span>
+    <span class="n">root</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">at_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">metric</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">query_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">touch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">use_index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">oversample</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Rank memories by <code>-distance + depth_bias*depth + time_coef*log(time_weight)</code>.</p>
+<p><code>mode</code> restricts the candidates: <code>nearest</code> (all), <code>subtree</code>/<code>children</code>/
+<code>ancestors</code>/<code>siblings</code> of <code>root</code>, or <code>cone</code> (points inside the
+entailment cone of <code>root</code>). <code>query</code> may be omitted for structural modes,
+in which case candidates are ranked by time weight and depth only.
+<code>metric</code> overrides the memory's default (see the class docstring);
+<code>query_depth</code> only matters for <code>metric="hyperbolic"</code> (default <code>base_depth</code>).</p>
+<p><code>use_index</code>: with <code>True</code> (or <code>None</code> once :meth:<code>build_index</code> has been
+called) a <code>nearest</code> + <code>shell</code> search first takes the <code>k * oversample</code>
+closest memories from the index, then scores them exactly with the temporal
+policy and filters. The index is rebuilt automatically after changes.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.table" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">table</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.table" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">table</span><span class="p">(</span><span class="n">at_time</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Plain rows: id, text, parent, level, depth, time, weight, accesses, meta.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.to_dataframe" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">to_dataframe</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.to_dataframe" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">to_dataframe</span><span class="p">(</span><span class="n">at_time</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p><code>pandas.DataFrame</code> of :meth:<code>table</code> (<code>pip install poincare-memory[pandas]</code>).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.tree" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">tree</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.tree" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">tree</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_text</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>ASCII tree of the hierarchy (all roots, or below <code>root</code>).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.inspect" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">inspect</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.inspect" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">inspect</span><span class="p">(</span>
+    <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">open_browser</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s2">"auto"</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Self-contained interactive HTML (disk, table, tree). Returns the HTML; writes it if <code>path</code>.</p>
+<p><code>layout="structural"</code> draws the stored hierarchy as a radial tree with exact
+depths (default when parents exist); <code>"projection"</code> draws the semantic directions.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.plot" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">plot</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.plot" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">at_time</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Matplotlib Poincaré-disk plot (<code>pip install poincare-memory[viz]</code>).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.save" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">save</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.save" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">save</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Persist records, points and configuration to a SQLite file.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.load" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">load</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#poincare_memory.store.memory.Memory.load" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">embedder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">clock</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Load a file written by :meth:<code>save</code>.</p>
+<p>The hashing embedder and the built-in decay policies are restored
+automatically; for other embedders pass the same <code>embedder</code> again.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.to_json" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">to_json</span>
+
+
+<a href="#poincare_memory.store.memory.Memory.to_json" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">to_json</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Portable JSON (config, records, points, embeddings). Returns the text; writes it if <code>path</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.store.memory.Memory.from_json" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_json</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#poincare_memory.store.memory.Memory.from_json" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">from_json</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">embedder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">clock</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Inverse of :meth:<code>to_json</code>; <code>source</code> is a path or the JSON text itself.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="poincare_memory.store.records.MemoryRecord" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">poincare_memory.store.records.MemoryRecord</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#poincare_memory.store.records.MemoryRecord" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">MemoryRecord</span><span class="p">(</span>
+    <span class="nb">id</span><span class="p">,</span>
+    <span class="n">text</span><span class="p">,</span>
+    <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">t</span><span class="o">=</span><span class="n">utcnow</span><span class="p">(),</span>
+    <span class="n">meta</span><span class="o">=</span><span class="nb">dict</span><span class="p">(),</span>
+    <span class="n">valid_from</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">valid_until</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">access_count</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">last_accessed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>One stored memory. Positions live in the :class:<code>~poincare_memory.Memory</code> that owns it.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="poincare_memory.store.records.SearchResult" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">poincare_memory.store.records.SearchResult</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#poincare_memory.store.records.SearchResult" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">SearchResult</span><span class="p">(</span>
+    <span class="n">record</span><span class="p">,</span>
+    <span class="n">score</span><span class="p">,</span>
+    <span class="n">distance</span><span class="p">,</span>
+    <span class="n">time_weight</span><span class="p">,</span>
+    <span class="n">depth</span><span class="p">,</span>
+    <span class="n">cone_energy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="geometry">Geometry<a class="headerlink" href="#geometry" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="poincare_memory.geometry.poincare.PoincareBall" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">poincare_memory.geometry.poincare.PoincareBall</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">PoincareBall</span><span class="p">(</span><span class="n">curvature</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Poincaré ball of curvature <code>-curvature</code>.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>curvature</code>
+            </td>
+            <td>
+                  <code><span title="float">float</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Positive number <code>c</code>; the space has constant sectional curvature
+<code>-c</code> and the ball has Euclidean radius <code>1/sqrt(c)</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>1.0</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.radius" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">radius</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.radius" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">radius</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Euclidean radius of the ball.</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.project" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">project</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.project" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">project</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Clip points to lie strictly inside the ball (dtype-dependent margin).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.is_inside" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">is_inside</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.is_inside" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">is_inside</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Boolean mask: which points lie inside the open ball.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.conformal_factor" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">conformal_factor</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.conformal_factor" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">conformal_factor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p><code>lambda_x = 2 / (1 - c ||x||^2)</code>, the metric's conformal factor.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.mobius_add" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">mobius_add</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.mobius_add" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">mobius_add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Möbius addition <code>x ⊕_c y</code> (non-commutative, non-associative).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.mobius_scalar_mul" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">mobius_scalar_mul</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.mobius_scalar_mul" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">mobius_scalar_mul</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Möbius scalar multiplication <code>r ⊗_c x</code> (scales hyperbolic distance from 0 by r).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.distance" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">distance</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.distance" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">distance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Geodesic distance via the gyrovector formula.</p>
+<p><code>d_c(x, y) = (2 / sqrt(c)) artanh(sqrt(c) || (-x) ⊕_c y ||)</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.distance_arcosh" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">distance_arcosh</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.distance_arcosh" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">distance_arcosh</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Geodesic distance via the arcosh formula (paper eq. 3, generalised to curvature c).</p>
+<p><code>d_c(x, y) = (1 / sqrt(c)) arcosh(1 + 2c ||x - y||^2 / ((1 - c||x||^2)(1 - c||y||^2)))</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.distance_to_origin" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">distance_to_origin</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.distance_to_origin" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">distance_to_origin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p><code>d_c(0, x) = (2 / sqrt(c)) artanh(sqrt(c) ||x||)</code> — the depth coordinate.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.pairwise_distance" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">pairwise_distance</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.pairwise_distance" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">pairwise_distance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>All-pairs distances: <code>x</code> of shape (n, d), <code>y</code> of shape (m, d) → (n, m).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.expmap0" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">expmap0</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.expmap0" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">expmap0</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Exponential map at the origin: tangent vector → point in the ball.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.logmap0" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">logmap0</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.logmap0" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">logmap0</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Logarithmic map at the origin: point in the ball → tangent vector.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.expmap" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">expmap</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.expmap" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">expmap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Exponential map at <code>x</code>: <code>x ⊕_c (tanh(sqrt(c) λ_x ||v|| / 2) v / (sqrt(c) ||v||))</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.logmap" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">logmap</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.logmap" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">logmap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Logarithmic map at <code>x</code> (inverse of :meth:<code>expmap</code>).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.geodesic" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">geodesic</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.geodesic" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">geodesic</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Point at fraction <code>t</code> along the geodesic from <code>x</code> (t=0) to <code>y</code> (t=1).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.point_at" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">point_at</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.point_at" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">point_at</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">hyperbolic_radius</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Point at hyperbolic distance <code>hyperbolic_radius</code> from the origin along <code>direction</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.set_depth" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">set_depth</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.set_depth" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">set_depth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">hyperbolic_radius</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Move <code>x</code> radially so that its distance from the origin equals <code>hyperbolic_radius</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.to_lorentz" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">to_lorentz</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.to_lorentz" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">to_lorentz</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Map ball points to the hyperboloid <code>{X : &lt;X,X&gt;_L = -1/c, X_0 &gt; 0}</code>.</p>
+<p>Returns an array with one extra leading coordinate (the time coordinate).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.from_lorentz" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">from_lorentz</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.from_lorentz" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">from_lorentz</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Inverse of :meth:<code>to_lorentz</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.egrad2rgrad" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">egrad2rgrad</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.egrad2rgrad" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">egrad2rgrad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Rescale a Euclidean gradient to the Riemannian gradient: <code>((1 - c||x||^2)^2 / 4) grad</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.retraction" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">retraction</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.retraction" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">retraction</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>First-order retraction <code>proj(x + v)</code> used by Riemannian SGD (Nickel &amp; Kiela 2017).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.poincare.PoincareBall.random_points" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">random_points</span>
+
+
+<a href="#poincare_memory.geometry.poincare.PoincareBall.random_points" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">random_points</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">max_hyperbolic_radius</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Uniform-in-direction points with hyperbolic radius uniform in <code>[0, max_hyperbolic_radius]</code>.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="poincare_memory.geometry.lorentz" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">poincare_memory.geometry.lorentz</span>
+
+
+<a href="#poincare_memory.geometry.lorentz" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Lorentz (hyperboloid) model helpers.</p>
+<p>The hyperboloid of curvature <code>-c</code> is <code>{X in R^{d+1} : &lt;X, X&gt;_L = -1/c, X_0 &gt; 0}</code>
+with the Lorentzian inner product <code>&lt;X, Y&gt;_L = -X_0 Y_0 + sum_i X_i Y_i</code>.</p>
+<p>Why it matters for retrieval: the geodesic distance is
+<code>d(X, Y) = (1/sqrt(c)) arcosh(-c &lt;X, Y&gt;_L)</code>, a decreasing function of the
+Lorentzian inner product. Negating the time coordinate of every stored vector
+turns <code>&lt;X, Y&gt;_L</code> into an ordinary dot product, so any maximum-inner-product
+(dot-product) ANN index returns exact hyperbolic nearest neighbours. This is
+the trick used by hyperbolic RAG systems and documented by vector-database
+vendors; no custom metric is needed.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.lorentz.lorentz_inner" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">lorentz_inner</span>
+
+
+<a href="#poincare_memory.geometry.lorentz.lorentz_inner" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">lorentz_inner</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Lorentzian inner product along the last axis.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.lorentz.lorentz_distance" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">lorentz_distance</span>
+
+
+<a href="#poincare_memory.geometry.lorentz.lorentz_distance" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">lorentz_distance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">curvature</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Geodesic distance on the hyperboloid of curvature <code>-curvature</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.lorentz.to_mips_vectors" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">to_mips_vectors</span>
+
+
+<a href="#poincare_memory.geometry.lorentz.to_mips_vectors" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">to_mips_vectors</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Negate the time coordinate so that <code>dot(to_mips_vectors(X), Y) == &lt;X, Y&gt;_L</code>.</p>
+<p>Store <code>to_mips_vectors(points)</code> in a dot-product index and query with the
+raw hyperboloid coordinates of the query point; the largest dot products are
+the hyperbolic nearest neighbours.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.geometry.lorentz.mips_scores" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">mips_scores</span>
+
+
+<a href="#poincare_memory.geometry.lorentz.mips_scores" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">mips_scores</span><span class="p">(</span><span class="n">stored_mips</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Dot-product scores (larger = closer) between MIPS-prepared stored vectors and a query.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="embedders">Embedders<a class="headerlink" href="#embedders" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="poincare_memory.embed.base" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">poincare_memory.embed.base</span>
+
+
+<a href="#poincare_memory.embed.base" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Embedder protocol and dependency-free implementations.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="poincare_memory.embed.base.Embedder" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Embedder</span>
+
+
+<a href="#poincare_memory.embed.base.Embedder" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="typing.Protocol">Protocol</span></code></p>
+
+
+
+        <p>Anything that turns texts into fixed-size Euclidean vectors.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="poincare_memory.embed.base.Embedder.embed" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">embed</span>
+
+
+<a href="#poincare_memory.embed.base.Embedder.embed" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">embed</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Return an array of shape <code>(len(texts), dim)</code>.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="poincare_memory.embed.base.HashingEmbedder" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">HashingEmbedder</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#poincare_memory.embed.base.HashingEmbedder" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">HashingEmbedder</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Deterministic, dependency-free text embedder (word + character n-gram hashing).</p>
+<p>It is not a semantic model; it is a stable, fast stand-in that makes the
+library usable offline and in tests. Swap in :class:<code>SentenceTransformerEmbedder</code>
+or any callable for real semantics.</p>
+<p>Algorithm (stable across versions and ports): lower-case the text; tokens are
+<code>[\w']+</code>; features are <code>"w:" + token</code> and <code>"c:" + ngram</code> for character
+n-grams of <code>"#" + token + "#"</code> with lengths in <code>ngram_range</code>; each feature is
+hashed with keyed BLAKE2b (digest 8 bytes, key = 4-byte little-endian <code>seed</code>);
+index = first 4 bytes as little-endian integer mod <code>dim</code>; sign = +1 if the
+fifth byte is odd else -1; the row is L2-normalised.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="poincare_memory.embed.base.CallableEmbedder" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">CallableEmbedder</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#poincare_memory.embed.base.CallableEmbedder" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">CallableEmbedder</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Wrap any <code>fn(texts) -&gt; array</code> as an :class:<code>Embedder</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="poincare_memory.embed.base.SentenceTransformerEmbedder" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">SentenceTransformerEmbedder</span>
+
+
+<a href="#poincare_memory.embed.base.SentenceTransformerEmbedder" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">SentenceTransformerEmbedder</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s2">"sentence-transformers/all-MiniLM-L6-v2"</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Sentence-Transformers wrapper (<code>pip install poincare-memory[embed]</code>).</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="poincare_memory.embed.projection.BallProjector" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">poincare_memory.embed.projection.BallProjector</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#poincare_memory.embed.projection.BallProjector" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">BallProjector</span><span class="p">(</span><span class="n">ball</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Place L2-normalised Euclidean vectors in the ball at a chosen hyperbolic depth.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.embed.projection.BallProjector.at_depth" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">at_depth</span>
+
+
+<a href="#poincare_memory.embed.projection.BallProjector.at_depth" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">at_depth</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Points with the direction of <code>X</code> and hyperbolic distance <code>depth</code> from the origin.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.embed.projection.BallProjector.expmap0" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">expmap0</span>
+
+
+<a href="#poincare_memory.embed.projection.BallProjector.expmap0" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">expmap0</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Alternative: exponential map of the (scaled) raw vectors; depth = 2 * scale * ||x|| (the conformal factor at the origin is 2).</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="hierarchy">Hierarchy<a class="headerlink" href="#hierarchy" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="poincare_memory.hierarchy.sarkar" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">poincare_memory.hierarchy.sarkar</span>
+
+
+<a href="#poincare_memory.hierarchy.sarkar" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Training-free tree embedding by Sarkar's combinatorial construction.</p>
+<p>Sarkar (2011) showed that any tree embeds in the hyperbolic plane with
+arbitrarily low distortion: put the root at the origin, place its children on
+a circle of hyperbolic radius <code>tau</code> at evenly spaced angles, then for every
+child move it to the origin by an isometry, place its own children on a circle
+around it while avoiding the direction of its parent, and move everything back.
+Sala, De Sa, Gu &amp; Ré (ICML 2018) analysed the construction and extended it to
+higher dimensions by spreading child directions on a sphere.</p>
+<p>This module implements both from the papers. Larger <code>tau</code> lowers distortion
+but pushes deep nodes toward the boundary; :func:<code>max_safe_depth</code> tells you how
+deep a tree can go before floating-point projection starts compressing it.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.hierarchy.sarkar.max_safe_depth" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">max_safe_depth</span>
+
+
+<a href="#poincare_memory.hierarchy.sarkar.max_safe_depth" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">max_safe_depth</span><span class="p">(</span><span class="n">ball</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Largest total hyperbolic radius representable before the ball margin clips points.</p>
+<p>Returns the number of <code>tau</code>-length steps from the origin that stay strictly
+inside <code>(1 - eps) / sqrt(c)</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.hierarchy.sarkar.spread_directions" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">spread_directions</span>
+
+
+<a href="#poincare_memory.hierarchy.sarkar.spread_directions" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">spread_directions</span><span class="p">(</span>
+    <span class="n">k</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">avoid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">200</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p><code>k</code> unit vectors in <code>R^dim</code> spread apart (and away from <code>avoid</code> if given).</p>
+<p>In two dimensions the angles are exact: children fill the circle evenly, with
+the parent's direction occupying one slot. In higher dimensions a seeded
+repulsion on the sphere (a Thomson-style relaxation) spreads the directions.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.hierarchy.sarkar.sarkar_layout" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">sarkar_layout</span>
+
+
+<a href="#poincare_memory.hierarchy.sarkar.sarkar_layout" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">sarkar_layout</span><span class="p">(</span>
+    <span class="n">edges</span><span class="p">,</span>
+    <span class="n">ball</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">tau</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">edge_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">root</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Embed a rooted tree given as <code>(parent, child)</code> edges.</p>
+<p>Every child is placed at hyperbolic distance <code>tau * edge_length[(parent, child)]</code>
+from its parent (<code>edge_length</code> defaults to 1). Returns <code>node -&gt; point</code>.
+A forest is handled by treating the listed <code>root</code> (or the single root) as
+the origin; pass a virtual root edge set if you have several roots.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="poincare_memory.hierarchy.rsgd" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">poincare_memory.hierarchy.rsgd</span>
+
+
+<a href="#poincare_memory.hierarchy.rsgd" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Poincaré embeddings trained with Riemannian SGD (Nickel &amp; Kiela, NeurIPS 2017), in NumPy.</p>
+<p>Use this when the hierarchy is noisy, partial, or a DAG rather than a tree; for a
+clean tree :func:<code>~poincare_memory.hierarchy.sarkar.sarkar_layout</code> is exact and
+instantaneous. A Euclidean twin with the same loss is provided as a baseline for
+benchmarks. Implemented from the paper; no third-party code was consulted.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.hierarchy.rsgd.fit_poincare_embeddings" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">fit_poincare_embeddings</span>
+
+
+<a href="#poincare_memory.hierarchy.rsgd.fit_poincare_embeddings" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">fit_poincare_embeddings</span><span class="p">(</span>
+    <span class="n">edges</span><span class="p">,</span>
+    <span class="n">dim</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">negatives</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">burn_in</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">burn_in_lr_factor</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">ball</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Learn points for every node so related pairs are close in the Poincaré ball.</p>
+<p><code>edges</code> are <code>(u, v)</code> related pairs (typically the transitive closure of a
+hierarchy). Returns <code>node -&gt; point</code> (scaled to the curvature of <code>ball</code>)
+and a training report.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.hierarchy.rsgd.fit_euclidean_embeddings" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">fit_euclidean_embeddings</span>
+
+
+<a href="#poincare_memory.hierarchy.rsgd.fit_euclidean_embeddings" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">fit_euclidean_embeddings</span><span class="p">(</span>
+    <span class="n">edges</span><span class="p">,</span>
+    <span class="n">dim</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">lr</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">negatives</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Same loss and sampling as :func:<code>fit_poincare_embeddings</code>, Euclidean distance (baseline).</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="poincare_memory.hierarchy.evaluation" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">poincare_memory.hierarchy.evaluation</span>
+
+
+<a href="#poincare_memory.hierarchy.evaluation" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Standard hierarchy-embedding evaluation: reconstruction MAP and mean rank.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.hierarchy.evaluation.reconstruction" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">reconstruction</span>
+
+
+<a href="#poincare_memory.hierarchy.evaluation.reconstruction" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">reconstruction</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">closure</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Reconstruction protocol of Nickel &amp; Kiela (2017).</p>
+<p>For every node <code>u</code> with related nodes <code>R(u)</code>: the <em>mean rank</em> of each
+related node counts only unrelated nodes that are closer to <code>u</code> (so hub
+nodes with many descendants are not penalised for their own descendants),
+and the <em>average precision</em> is computed over the ranking of all other nodes.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="poincare_memory.hierarchy.tree" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">poincare_memory.hierarchy.tree</span>
+
+
+<a href="#poincare_memory.hierarchy.tree" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Small rooted-tree utilities shared by the layout and training code.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.hierarchy.tree.children_map" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">children_map</span>
+
+
+<a href="#poincare_memory.hierarchy.tree.children_map" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">children_map</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Build <code>parent -&gt; [children]</code> from <code>(parent, child)</code> edges and return the roots.</p>
+<p>Raises <code>ValueError</code> on cycles or on a node with two parents.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.hierarchy.tree.depths" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">depths</span>
+
+
+<a href="#poincare_memory.hierarchy.tree.depths" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">depths</span><span class="p">(</span><span class="n">children</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Depth of every node below <code>root</code> (root has depth 0).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.hierarchy.tree.transitive_closure" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">transitive_closure</span>
+
+
+<a href="#poincare_memory.hierarchy.tree.transitive_closure" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">transitive_closure</span><span class="p">(</span><span class="n">children</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>All <code>(ancestor, descendant)</code> pairs below <code>root</code>.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="temporal-policies">Temporal policies<a class="headerlink" href="#temporal-policies" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="poincare_memory.temporal.policies" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">poincare_memory.temporal.policies</span>
+
+
+<a href="#poincare_memory.temporal.policies" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Named temporal weighting policies.</p>
+<p>The paper describes "time-weighted embeddings" that favour recent information
+while keeping established knowledge reachable. Here that idea is a pluggable,
+testable policy that maps a memory's age (and optionally its access history or
+validity window) to a weight in <code>(0, 1]</code>. Weights enter the retrieval score
+as <code>time_coef * log(weight)</code>, so a weight of 1 is neutral.</p>
+<p>Forms implemented from the literature:
+- exponential half-life (the <code>0.995^hours</code> recency of Generative Agents,
+  Park et al. 2023, is <code>HalfLife(hours=138.3)</code>);
+- Ebbinghaus forgetting <code>exp(-t / S)</code> with stability that grows with
+  accesses (MemoryBank, Zhong et al. 2024);
+- validity windows (bi-temporal facts as in Graphiti/Zep).</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="poincare_memory.temporal.policies.DecayPolicy" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">DecayPolicy</span>
+
+
+<a href="#poincare_memory.temporal.policies.DecayPolicy" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="typing.Protocol">Protocol</span></code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="poincare_memory.temporal.policies.DecayPolicy.weight" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">weight</span>
+
+
+<a href="#poincare_memory.temporal.policies.DecayPolicy.weight" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">weight</span><span class="p">(</span><span class="n">now</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">access_counts</span><span class="p">,</span> <span class="n">valid_from</span><span class="p">,</span> <span class="n">valid_until</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Weights in <code>[MIN_WEIGHT, 1]</code> for each memory.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="poincare_memory.temporal.policies.HalfLife" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">HalfLife</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#poincare_memory.temporal.policies.HalfLife" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">HalfLife</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">24</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p><code>w = 0.5 ** (age_hours / hours)</code>; memories older than the future (negative age) get weight 1.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="poincare_memory.temporal.policies.Ebbinghaus" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Ebbinghaus</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#poincare_memory.temporal.policies.Ebbinghaus" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">Ebbinghaus</span><span class="p">(</span><span class="n">stability_hours</span><span class="o">=</span><span class="mi">24</span> <span class="o">*</span> <span class="mi">7</span><span class="p">,</span> <span class="n">boost_per_access</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p><code>w = exp(-age_hours / S)</code> with <code>S = stability_hours * (1 + boost_per_access * accesses)</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="poincare_memory.temporal.policies.ValidityWindow" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">ValidityWindow</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#poincare_memory.temporal.policies.ValidityWindow" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">ValidityWindow</span><span class="p">(</span><span class="n">outside_weight</span><span class="o">=</span><span class="n">MIN_WEIGHT</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Weight 1 while <code>valid_from &lt;= now &lt;= valid_until</code>, <code>outside_weight</code> otherwise.</p>
+<p>Missing bounds are open. Combine with another policy via :class:<code>Product</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="poincare_memory.temporal.policies.Product" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">Product</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#poincare_memory.temporal.policies.Product" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">Product</span><span class="p">(</span><span class="o">*</span><span class="n">policies</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Elementwise product of several policies (e.g. <code>Product(HalfLife(72), ValidityWindow())</code>).</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.temporal.policies.generative_agents_recency" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">generative_agents_recency</span>
+
+
+<a href="#poincare_memory.temporal.policies.generative_agents_recency" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">generative_agents_recency</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The <code>0.995 ** hours</code> recency used by Generative Agents, as a half-life (≈138.3 h).</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="retrieval">Retrieval<a class="headerlink" href="#retrieval" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="poincare_memory.retrieval.scoring" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">poincare_memory.retrieval.scoring</span>
+
+
+<a href="#poincare_memory.retrieval.scoring" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Combining geometry and time into one retrieval score.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.retrieval.scoring.combine" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">combine</span>
+
+
+<a href="#poincare_memory.retrieval.scoring.combine" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">combine</span><span class="p">(</span>
+    <span class="n">distances</span><span class="p">,</span>
+    <span class="n">time_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">depths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">time_coef</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">depth_bias</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p><code>score = -distance + depth_bias * depth + time_coef * log(time_weight)</code>.</p>
+<p>Larger is better. <code>depth_bias &gt; 0</code> prefers specific (deep) memories,
+<code>&lt; 0</code> prefers general ones; <code>time_coef</code> scales how strongly the temporal
+policy counts (1.0 means a half-life halving of the weight costs <code>ln 2</code>
+in score, the same as moving <code>ln 2 ≈ 0.69</code> further away in the ball).</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="poincare_memory.retrieval.cones" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">poincare_memory.retrieval.cones</span>
+
+
+<a href="#poincare_memory.retrieval.cones" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Hyperbolic entailment cones (Ganea, Bécigneul &amp; Hofmann, ICML 2018).</p>
+<p>Every point <code>x</code> in the ball (outside a small central region of radius <code>K</code>)
+owns a geodesically convex cone opening toward the boundary. "<code>y</code> lies in the
+cone of <code>x</code>" is the geometric form of "<code>x</code> entails / is more general than
+<code>y</code>". With depth encoded by the norm, cones give <em>ancestor</em> and <em>descendant</em>
+queries that plain nearest-neighbour search cannot express.</p>
+<p>Formulas (unit ball; points are scaled by <code>sqrt(c)</code> first):
+    half-aperture   psi(x)   = arcsin(K (1 - ||x||^2) / ||x||)
+    angle at x      Xi(x, y) = arccos( (<x,y>(1 + ||x||^2) - ||x||^2 (1 + ||y||^2))
+                                      / (||x|| ||x - y|| sqrt(1 + ||x||^2 ||y||^2 - 2<x,y>)) )
+    energy          E(x, y)  = max(0, Xi(x, y) - psi(x))     (0 means y is inside the cone)</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.retrieval.cones.cone_energy" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">cone_energy</span>
+
+
+<a href="#poincare_memory.retrieval.cones.cone_energy" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">cone_energy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ball</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">DEFAULT_K</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p><code>max(0, Xi(x, y) - psi(x))</code>; zero when <code>y</code> is inside the entailment cone of <code>x</code>.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="index">Index<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="poincare_memory.index" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">poincare_memory.index</span>
+
+
+<a href="#poincare_memory.index" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Nearest-neighbour indexes for the reference-shell metric.</p>
+<p>Semantic search in :class:<code>~poincare_memory.Memory</code> compares the query with every
+memory on the root shell. For large stores that comparison is offloaded to a
+maximum-inner-product index: shell points are mapped to the Lorentz model and
+their time coordinate negated (:func:<code>~poincare_memory.geometry.to_mips_vectors</code>),
+after which the largest dot products are exactly the hyperbolic nearest
+neighbours. Two backends:</p>
+<ul>
+<li><code>numpy</code>: exact, vectorised, fine to a few hundred thousand points;</li>
+<li><code>faiss</code>: <code>IndexHNSWFlat</code> with inner-product metric (<code>pip install poincare-memory[ann]</code>),
+  approximate, for millions of points.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="poincare_memory.index.MIPSIndex" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">MIPSIndex</span>
+
+
+<a href="#poincare_memory.index.MIPSIndex" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">MIPSIndex</span><span class="p">(</span><span class="n">ball</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="n">hnsw_m</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">ef_search</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Maximum-inner-product index over Lorentz-mapped points.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="poincare_memory.index.MIPSIndex.build" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">build</span>
+
+
+<a href="#poincare_memory.index.MIPSIndex.build" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">build</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Index <code>points</code> (ball coordinates, shape <code>(n, dim)</code>).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="poincare_memory.index.MIPSIndex.query" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">query</span>
+
+
+<a href="#poincare_memory.index.MIPSIndex.query" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">query</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Indices and inner-product scores of the <code>k</code> nearest stored points to a ball point.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="visualisation">Visualisation<a class="headerlink" href="#visualisation" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="poincare_memory.viz.export" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">poincare_memory.viz.export</span>
+
+
+<a href="#poincare_memory.viz.export" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Export a memory as JSON / NetworkX and project points to the 2-D disk for drawing.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.viz.export.disk_coordinates" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">disk_coordinates</span>
+
+
+<a href="#poincare_memory.viz.export.disk_coordinates" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">disk_coordinates</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">ball</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>2-D Poincaré-disk coordinates for drawing.</p>
+<p>In 2-D the points are returned unchanged (scaled to the unit disk). In
+higher dimensions the <em>directions</em> are reduced with an uncentred SVD of the
+tangent vectors at the origin (so the origin stays the origin) and every
+point keeps its exact hyperbolic depth; angles are approximate, depths are
+not.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.viz.export.structural_coordinates" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">structural_coordinates</span>
+
+
+<a href="#poincare_memory.viz.export.structural_coordinates" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">structural_coordinates</span><span class="p">(</span><span class="n">memory</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>2-D disk coordinates for inspection: angles from the hierarchy, radii from the true depths.</p>
+<p>Every memory keeps its exact hyperbolic distance from the origin (the paper's
+depth coordinate); its angle comes from a radial tree layout in which each
+subtree owns an angular wedge proportional to its number of leaves, so
+siblings spread evenly and subtrees do not overlap. This is a drawing, not
+an isometric embedding: use the real points for distances.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.viz.export.to_dict" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">to_dict</span>
+
+
+<a href="#poincare_memory.viz.export.to_dict" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">to_dict</span><span class="p">(</span><span class="n">memory</span><span class="p">,</span> <span class="n">at_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Serialisable snapshot. <code>layout</code>: <code>"structural"</code> (tree layout), <code>"projection"</code> (semantic
+directions), or <code>"auto"</code> (structural when any parent links exist).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="poincare_memory.viz.export.to_networkx" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">to_networkx</span>
+
+
+<a href="#poincare_memory.viz.export.to_networkx" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">to_networkx</span><span class="p">(</span><span class="n">memory</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p><code>networkx.DiGraph</code> with node attributes (requires <code>networkx</code>).</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="poincare_memory.viz.html.render_html" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">poincare_memory.viz.html.render_html</span>
+
+
+<a href="#poincare_memory.viz.html.render_html" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">render_html</span><span class="p">(</span>
+    <span class="n">memory</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">at_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s2">"auto"</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="poincare_memory.viz.mpl.plot_memory" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">poincare_memory.viz.mpl.plot_memory</span>
+
+
+<a href="#poincare_memory.viz.mpl.plot_memory" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">plot_memory</span><span class="p">(</span><span class="n">memory</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">at_time</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Code Apache-2.0 · © 2026 Dhruv Mojila · the paper itself is © IEEE
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "content.code.copy", "content.code.annotate", "search.suggest", "toc.follow"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
